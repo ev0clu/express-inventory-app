@@ -1,6 +1,6 @@
 # **Inventory App**
 
-A simple CRUD app has built with Node.js and Express.js framework. Express generator has been used to create the skeleton of the project and EJS view engine has been used as templating engine. The app uses MVC pattern and mongoose ORM.
+A simple CRUD app has built with Node.js and Express.js framework. Express generator has been used to create the skeleton of the project and EJS view engine has been used as templating engine. The app uses [MVC pattern](https://developer.mozilla.org/en-US/docs/Glossary/MVC) and mongoose ORM (Object Relational Model).
 
 ### Demo: [Link]()
 
@@ -22,6 +22,7 @@ A simple CRUD app has built with Node.js and Express.js framework. Express gener
 
 -   [Node.js](https://nodejs.org/en)
 -   [Express.js](https://expressjs.com/)
+-   [express-async-handler](https://www.npmjs.com/package/express-async-handler/)
 -   [EJS view engine](https://ejs.co/)
 -   [MongoDB](https://www.mongodb.com/)
 -   [Mongoose](https://mongoosejs.com/)
