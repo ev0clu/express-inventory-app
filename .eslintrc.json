@@ -10,7 +10,7 @@
         "node": true
     },
     "rules": {
-        "no-console": "error"
+        "no-console": "off"
     },
     "plugins": ["prettier"]
 }
