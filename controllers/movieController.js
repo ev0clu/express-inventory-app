@@ -1,8 +1,28 @@
 const Movie = require('../models/Movie');
+const Director = require('../models/Director');
+const Genre = require('../models/Genre');
+const MovieStatus = require('../models/MovieStatus');
 const asyncHandler = require('express-async-handler');
 
 exports.index = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Site Home Page');
+    // Get details of movies, movi statuses, directors and genre counts (in parallel)
+    const [numMovies, numWatchlistMovieStatus, numWatchedMovieStatus, numDirectors, numGenres] =
+        await Promise.all([
+            Movie.countDocuments({}).exec(),
+            MovieStatus.countDocuments({ status: 'Watchlist' }).exec(),
+            MovieStatus.countDocuments({ status: 'Watched' }).exec(),
+            Director.countDocuments({}).exec(),
+            Genre.countDocuments({}).exec()
+        ]);
+
+    res.render('index', {
+        title: 'Movie Database Home',
+        movie_count: numMovies,
+        movie_status_watchlist_count: numWatchlistMovieStatus,
+        movie_status_watched_count: numWatchedMovieStatus,
+        director_count: numDirectors,
+        genre_count: numGenres
+    });
 });
 
 // Display list of all movies.

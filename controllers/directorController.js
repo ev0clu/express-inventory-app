@@ -22,7 +22,7 @@ exports.director_create_post = asyncHandler(async (req, res, next) => {
 });
 
 // Display Director delete form on GET.
-exports.director_detailirector_delete_get = asyncHandler(async (req, res, next) => {
+exports.director_delete_get = asyncHandler(async (req, res, next) => {
     res.send('NOT IMPLEMENTED: Director delete GET');
 });
 
