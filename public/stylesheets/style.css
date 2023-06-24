@@ -7,16 +7,19 @@
 
 body {
     font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+    padding: 50px;
     background-color: #f5f5f4;
+    display: grid;
+    grid-template-columns: 10rem 1fr;
 }
 
 .sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
 }
 
 .sidebar-nav a {
@@ -26,10 +29,28 @@ body {
 
 .sidebar-nav a:hover {
     background-color: #075985;
+    transition: background-color 50ms ease-in-out;
     opacity: 0.5;
     color: #f5f5f4;
     padding: 5px 10px;
     border-radius: 5px;
+}
+
+.content {
+    padding-left: 2rem;
+}
+
+.content h1 {
+    margin-bottom: 0.5rem;
+}
+
+.content p {
+    margin-bottom: 1rem;
+}
+
+.content-list {
+    margin-top: 1rem;
+    padding-left: 1rem;
 }
 
 footer {
