@@ -112,6 +112,6 @@ router.post('/moviestatus/:id/update', movieStatus_controller.movieStatus_update
 router.get('/moviestatus/:id', movieStatus_controller.movieStatus_detail);
 
 // GET request for list of all MovieStatus.
-router.get('/moviestatus', movieStatus_controller.movieStatus_list);
+router.get('/moviestatuses', movieStatus_controller.movieStatus_list);
 
 module.exports = router;
