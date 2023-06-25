@@ -29,6 +29,7 @@ A simple CRUD app has built with Node.js and Express.js framework. Express gener
 -   [dotenv](https://www.npmjs.com/package/dotenv)
 -   [morgan](https://www.npmjs.com/package/morgan)
 -   [http-errors](https://www.npmjs.com/package/http-errors)
+-   [date-nfs](https://date-fns.org/)
 
 ### Layout
 
