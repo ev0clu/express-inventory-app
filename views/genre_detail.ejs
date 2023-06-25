@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><%= title %></title>
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+
+    <body>
+        <nav>
+            <ul class="sidebar-nav-top">
+                <li><a href="/catalog">Home</a></li>
+                <li><a href="/catalog/movies">Movies</a></li>
+                <li><a href="/catalog/directors">Directors</a></li>
+                <li><a href="/catalog/genres">Genres</a></li>
+                <li>
+                    <a href="/catalog/moviestatuses">Movie statuses</a>
+                </li>
+            </ul>
+            <hr />
+            <ul class="sidebar-nav-bottom">
+                <li>
+                    <a href="/catalog/director/create">Create New Director</a>
+                </li>
+                <li>
+                    <a href="/catalog/genre/create">Create New Genre</a>
+                </li>
+                <li>
+                    <a href="/catalog/moviestatus/create">Create New Movie</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="content">
+            <h1>Genre: <%= genre.name %></h1>
+            <div class="content-list">
+                <% if (genre_movies.length > 0) { %> <% genre_movies.map(movie => { %>
+                <dt>
+                    <strong><a href="<%= movie.url %>"> <%= movie.title %></a> </strong>
+                </dt>
+                <dd><%= movie.summary %></dd>
+                <% }) %> <% } else { %>
+                <p>This genre has no movies in the database.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <footer>
+            <p>Copyright © Laszlo Kis 2023</p>
+            <a class="reflink" href="https://github.com/ev0clu" target="_blank">
+                <img class="github-img" src="/images/github-logo.png" alt="Github logo" />
+            </a>
+        </footer>
+    </body>
+</html>

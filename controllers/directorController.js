@@ -3,7 +3,11 @@ const asyncHandler = require('express-async-handler');
 
 // Display list of all Director.
 exports.director_list = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director list');
+    const allDirectors = await Director.find().sort({ last_name: 1 }).exec();
+    res.render('director_list', {
+        title: 'Director List',
+        director_list: allDirectors
+    });
 });
 
 // Display detail page for a specific Director.
