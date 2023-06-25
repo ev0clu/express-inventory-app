@@ -60,7 +60,7 @@ router.post('/director/:id/update', director_controller.director_update_post);
 router.get('/director/:id', director_controller.director_detail);
 
 // GET request for list of all Director.
-router.get('/director', director_controller.director_list);
+router.get('/directors', director_controller.director_list);
 
 /// GENRE ROUTES ///
 
