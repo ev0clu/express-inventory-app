@@ -1,3 +1,4 @@
+const dateFns = require('date-fns');
 const mongoose = require('mongoose');
 
 const directorSchema = new mongoose.Schema({
@@ -22,6 +23,10 @@ directorSchema.virtual('name').get(function () {
 directorSchema.virtual('url').get(function () {
     // We don't use an arrow function as we'll need the this object
     return `/catalog/director/${this._id}`;
+});
+
+directorSchema.virtual('date_of_birth_formatted').get(function () {
+    return dateFns.format(this.date_of_birth, 'MM/dd/yyy');
 });
 
 module.exports = mongoose.model('Director', directorSchema);
