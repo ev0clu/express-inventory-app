@@ -3,7 +3,12 @@ const asyncHandler = require('express-async-handler');
 
 // Display list of all MovieStatuses.
 exports.movieStatus_list = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: MovieStatus list');
+    const allMovieStauses = await MovieStatus.find().populate('movie').exec();
+
+    res.render('moviestatus_list', {
+        title: 'Movie Status List',
+        moviestatus_list: allMovieStauses
+    });
 });
 
 // Display detail page for a specific MovieStatus.
