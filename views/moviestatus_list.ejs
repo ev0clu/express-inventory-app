@@ -37,8 +37,10 @@
             <ul class="content-list">
                 <% if (moviestatus_list.length > 0) { %> <% moviestatus_list.map(moviestatus => { %>
                 <li>
-                    <a href="<%= moviestatus.url %>"> <%= moviestatus.movie.title %></a
-                    ><span> - </span>
+                    <strong
+                        ><a href="<%= moviestatus.url %>"> <%= moviestatus.movie.title %></a>
+                        <span> - </span>
+                    </strong>
                     <% if(moviestatus.status ==="Watched"){%>
                     <span class="text-watched"> <%= moviestatus.status %> </span>
                     <span>at <%= moviestatus.due_date_formatted %></span>
