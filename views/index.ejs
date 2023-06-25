@@ -8,22 +8,35 @@
         <link rel="stylesheet" href="/stylesheets/style.css" />
     </head>
     <body>
-        <ul class="sidebar-nav">
-            <li><a href="/catalog">Home</a></li>
-            <li><a href="/catalog/movies">Movies</a></li>
-            <li><a href="/catalog/directors">Directors</a></li>
-            <li><a href="/catalog/genres">Genres</a></li>
-            <li><a href="/catalog/moviestatuses">Movie statuses</a></li>
+        <nav>
+            <ul class="sidebar-nav-top">
+                <li><a href="/catalog">Home</a></li>
+                <li><a href="/catalog/movies">Movies</a></li>
+                <li><a href="/catalog/directors">Directors</a></li>
+                <li><a href="/catalog/genres">Genres</a></li>
+                <li><a href="/catalog/moviestatuses">Movie statuses</a></li>
+            </ul>
             <hr />
-            <li><a href="/catalog/director/create">Create New Director</a></li>
-            <li><a href="/catalog/genre/create">Create New Genre</a></li>
-            <li><a href="/catalog/moviestatus/create">Create New Movie</a></li>
-        </ul>
+            <ul class="sidebar-nav-bottom">
+                <li><a href="/catalog/director/create">Create New Director</a></li>
+                <li><a href="/catalog/genre/create">Create New Genre</a></li>
+                <li><a href="/catalog/moviestatus/create">Create New Movie</a></li>
+            </ul>
+        </nav>
         <div class="content">
-            <%- include('content', { title: title, movie_count: movie_count,
-            movie_status_watchlist_count: movie_status_watchlist_count, movie_status_watched_count:
-            movie_status_watched_count, director_count: director_count, genre_count: genre_count })
-            %>
+            <h1><%= title %></h1>
+            <p>
+                Welcome to <em>Movie Database</em>, a very basic inventory website developed with
+                Express.
+            </p>
+            <p>The database has the following record counts:</p>
+            <ul class="content-list">
+                <li><strong>Movies:</strong> <%= movie_count %></li>
+                <li><strong>Movie Watchlist:</strong> <%= movie_status_watchlist_count %></li>
+                <li><strong>Movie Watched:</strong> <%= movie_status_watched_count %></li>
+                <li><strong>Directors:</strong> <%= director_count %></li>
+                <li><strong>Genres:</strong> <%= genre_count %></li>
+            </ul>
         </div>
 
         <footer>
