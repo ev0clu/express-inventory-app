@@ -1,3 +1,4 @@
+const dateFns = require('date-fns');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -17,6 +18,10 @@ const movieStatusSchema = new Schema({
 movieStatusSchema.virtual('url').get(function () {
     // We don't use an arrow function as we'll need the this object
     return `/catalog/moviestatus/${this._id}`;
+});
+
+movieStatusSchema.virtual('due_date_formatted').get(function () {
+    return dateFns.format(this.due_date, 'MM/dd/yyy HH:mm');
 });
 
 // Export model
