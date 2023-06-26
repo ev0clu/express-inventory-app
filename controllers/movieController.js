@@ -37,7 +37,7 @@ exports.movie_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific movie.
 exports.movie_detail = asyncHandler(async (req, res, next) => {
-    // Get details of books, book instances for specific book
+    // Get details of movies, movie statuses for specific movie
     const [movie, movieStatuses] = await Promise.all([
         Movie.findById(req.params.id).populate('director').populate('genre').exec(),
         MovieStatus.find({ movie: req.params.id }).exec()
@@ -45,7 +45,7 @@ exports.movie_detail = asyncHandler(async (req, res, next) => {
 
     if (movie === null) {
         // No results.
-        const err = new Error('Book not found');
+        const err = new Error('Movie not found');
         err.status = 404;
         return next(err);
     }
