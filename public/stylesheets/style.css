@@ -15,6 +15,11 @@ body {
     grid-template-rows: 1fr auto;
 }
 
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 .sidebar-nav-top,
 .sidebar-nav-bottom {
     display: flex;
