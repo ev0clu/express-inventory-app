@@ -3,6 +3,7 @@ const Director = require('../models/Director');
 const Genre = require('../models/Genre');
 const MovieStatus = require('../models/MovieStatus');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 exports.index = asyncHandler(async (req, res, next) => {
     // Get details of movies, movi statuses, directors and genre counts (in parallel)
@@ -59,13 +60,80 @@ exports.movie_detail = asyncHandler(async (req, res, next) => {
 
 // Display movie create form on GET.
 exports.movie_create_get = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Movie create GET');
+    // Get all directors and genres, which we can use for adding to our movie.
+    const [allDirectors, allGenres] = await Promise.all([
+        Director.find().sort({ last_name: 1 }).exec(),
+        Genre.find().sort({ title: 1 }).exec()
+    ]);
+
+    res.render('movie_form', {
+        title: 'Create Movie',
+        directors: allDirectors,
+        genres: allGenres,
+        movie: undefined,
+        errors: null
+    });
 });
 
 // Handle movie create on POST.
-exports.movie_create_post = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Movie create POST');
-});
+exports.movie_create_post = [
+    // Convert the genre to an array.
+    (req, res, next) => {
+        if (!(req.body.genre instanceof Array)) {
+            if (typeof req.body.genre === 'undefined') req.body.genre = [];
+            else req.body.genre = new Array(req.body.genre);
+        }
+        next();
+    },
+
+    // Validate and sanitize fields.
+    body('title', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('director', 'Director must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('genre.*').escape(),
+    // Process request after validation and sanitization.
+
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Movie object with escaped and trimmed data.
+        const movie = new Movie({
+            title: req.body.title,
+            director: req.body.director,
+            summary: req.body.summary,
+            genre: req.body.genre
+        });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all directors and genres for form.
+            const [allDirectors, allGenres] = await Promise.all([
+                Director.find().exec(),
+                Genre.find().exec()
+            ]);
+
+            // Mark our selected genres as checked.
+            for (const genre of allGenres) {
+                if (movie.genre.indexOf(genre._id) > -1) {
+                    genre.checked = 'true';
+                }
+            }
+            res.render('movie_form', {
+                title: 'Create Movie',
+                directors: allDirectors,
+                genres: allGenres,
+                movie: movie,
+                errors: errors.array()
+            });
+        } else {
+            // Data from form is valid. Save movie.
+            await movie.save();
+            res.redirect(movie.url);
+        }
+    })
+];
 
 // Display movie delete form on GET.
 exports.movie_delete_get = asyncHandler(async (req, res, next) => {

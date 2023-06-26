@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><%= title %></title>
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+
+    <body>
+        <%- include('nav_bar') %>
+        <div class="content">
+            <h1><%= title %></h1>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input
+                        id="title"
+                        class="form-control"
+                        type="text"
+                        placeholder="Name of movie"
+                        name="title"
+                        required="true"
+                        value="<%= typeof movie !== 'undefined' ? movie.title : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="director">Director:</label>
+                    <select
+                        id="director"
+                        class="form-control"
+                        type="select"
+                        placeholder="Select director"
+                        name="director"
+                        required="true"
+                    >
+                        <% directors.forEach((director) => { %> <% if (movie) { %>
+                        <option
+                            value="<%= director._id %>"
+                            selected="<%= (director._id.toString() === movie.director._id.toString()) ? 'selected' : '' %>"
+                        >
+                            <%= director.name %>
+                        </option>
+                        <% } else { %>
+                        <option value="<%= director._id %>"><%= director.name %></option>
+                        <% } %> <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="summary">Summary:</label>
+                    <textarea
+                        id="summary"
+                        class="form-control"
+                        type="textarea"
+                        placeholder="Summary"
+                        name="summary"
+                        required="true"
+                    >
+<%= typeof movie !== 'undefined' ? movie.summary : '' %>
+</textarea
+                    >
+                </div>
+                <div class="form-group">
+                    <label>Genre:</label>
+                    <div class="form-group-genre-wrapper">
+                        <% genres.forEach((genre) => { %>
+                        <div class="form-group-genre">
+                            <input class="checkbox-input" type="checkbox" name="genre" id="<%=
+                            genre._id %>" value="<%= genre._id %>" <%= genre.checked ? 'checked' :
+                            '' %> />
+                            <label for="<%= genre._id %>"><%= genre.name %></label>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+                <button class="btn-primary" type="submit">Submit</button>
+            </form>
+            <% if (errors) { %>
+            <ul>
+                <% errors.forEach((error) => { %>
+                <li><%= error.msg %></li>
+                <% }); %>
+            </ul>
+            <% } %>
+        </div>
+        <footer>
+            <p>Copyright © Laszlo Kis 2023</p>
+            <a class="reflink" href="https://github.com/ev0clu" target="_blank">
+                <img class="github-img" src="/images/github-logo.png" alt="Github logo" />
+            </a>
+        </footer>
+    </body>
+</html>
