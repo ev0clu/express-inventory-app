@@ -27,11 +27,19 @@ directorSchema.virtual('url').get(function () {
 });
 
 directorSchema.virtual('date_of_birth_formatted').get(function () {
-    return dateFns.format(this.date_of_birth, 'MM/dd/yyy');
+    let date_of_death_string = '';
+    if (this.date_of_birth) {
+        date_of_death_string = dateFns.format(this.date_of_birth, 'yyy/MM/dd');
+    }
+    return date_of_death_string;
 });
 
 directorSchema.virtual('date_of_death_formatted').get(function () {
-    return dateFns.format(this.date_of_death, 'MM/dd/yyy');
+    let date_of_death_string = '';
+    if (this.date_of_death) {
+        date_of_death_string = dateFns.format(this.date_of_death, 'yyy/MM/dd');
+    }
+    return date_of_death_string;
 });
 
 module.exports = mongoose.model('Director', directorSchema);
