@@ -37,7 +37,24 @@ exports.movie_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific movie.
 exports.movie_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Movie detail: ${req.params.id}`);
+    // Get details of books, book instances for specific book
+    const [movie, movieStatuses] = await Promise.all([
+        Movie.findById(req.params.id).populate('director').populate('genre').exec(),
+        MovieStatus.find({ movie: req.params.id }).exec()
+    ]);
+
+    if (movie === null) {
+        // No results.
+        const err = new Error('Book not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('movie_detail', {
+        title: movie.title,
+        movie: movie,
+        movie_statuses: movieStatuses
+    });
 });
 
 // Display movie create form on GET.
