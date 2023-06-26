@@ -70,6 +70,61 @@ body {
     color: #9333ea;
 }
 
+input {
+    font-size: 16px;
+    min-height: 30px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin: 5px 0 5px 0;
+    min-width: 100%;
+    border: 1px solid #575353;
+}
+
+.btn-primary {
+    appearance: none;
+    background-color: #575353;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    box-sizing: border-box;
+    color: #fafbfc;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji';
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    padding: 6px 16px;
+    position: relative;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+    word-wrap: break-word;
+}
+
+.btn-primary:hover {
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+.btn-primary:active {
+    background-color: rgb(76, 71, 71);
+    color: white;
+    box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+    transition: none 0s;
+}
+
+.btn-primary:focus {
+    outline: 1px transparent;
+}
+
 footer {
     grid-column: 1/3;
     height: 2.5rem;
