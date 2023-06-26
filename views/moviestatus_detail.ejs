@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><%= title %></title>
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+
+    <body>
+        <nav>
+            <ul class="sidebar-nav-top">
+                <li><a href="/catalog">Home</a></li>
+                <li><a href="/catalog/movies">Movies</a></li>
+                <li><a href="/catalog/directors">Directors</a></li>
+                <li><a href="/catalog/genres">Genres</a></li>
+                <li>
+                    <a href="/catalog/moviestatuses">Movie statuses</a>
+                </li>
+            </ul>
+            <hr />
+            <ul class="sidebar-nav-bottom">
+                <li>
+                    <a href="/catalog/director/create">Create New Director</a>
+                </li>
+                <li>
+                    <a href="/catalog/genre/create">Create New Genre</a>
+                </li>
+                <li>
+                    <a href="/catalog/moviestatus/create">Create New Movie</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="content">
+            <h1>ID: <%= moviestatus._id %></h1>
+            <p>
+                <strong>Title:</strong>
+                <a href="<%= moviestatus.movie.url %>"><%= moviestatus.movie.title %></a>
+            </p>
+            <p>
+                <strong>Status:</strong>
+                <% if (moviestatus.status === 'Watchlist') { %>
+                <span class="text-watchlist"><%= moviestatus.status %></span>
+                <% } else if (moviestatus.status === 'Watched') { %>
+                <span class="text-watched"><%= moviestatus.status %></span>
+                <% } else { %>
+                <span class="text-watch-again"><%= moviestatus.status %></span>
+                <% } %>
+            </p>
+            <% if (moviestatus.status === 'Watched') { %>
+            <p><strong>Watched date:</strong> <%= moviestatus.due_date_formatted %></p>
+            <% } %>
+        </div>
+
+        <footer>
+            <p>Copyright © Laszlo Kis 2023</p>
+            <a class="reflink" href="https://github.com/ev0clu" target="_blank">
+                <img class="github-img" src="/images/github-logo.png" alt="Github logo" />
+            </a>
+        </footer>
+    </body>
+</html>

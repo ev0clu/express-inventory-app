@@ -13,7 +13,19 @@ exports.movieStatus_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific MovieStatus.
 exports.movieStatus_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: MovieStatus detail: ${req.params.id}`);
+    const movieStatus = await MovieStatus.findById(req.params.id).populate('movie').exec();
+
+    if (movieStatus === null) {
+        // No results.
+        const err = new Error('Movie status not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('moviestatus_detail', {
+        title: 'Movie:',
+        moviestatus: movieStatus
+    });
 });
 
 // Display MovieStatus create form on GET.
