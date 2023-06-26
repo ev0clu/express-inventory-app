@@ -1,4 +1,5 @@
 const Director = require('../models/Director');
+const Movie = require('../models/Movie');
 const asyncHandler = require('express-async-handler');
 
 // Display list of all Director.
@@ -12,7 +13,24 @@ exports.director_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific Director.
 exports.director_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Director detail: ${req.params.id}`);
+    // Get details of director and all their movies (in parallel)
+    const [director, allMoviesByDirector] = await Promise.all([
+        Director.findById(req.params.id).exec(),
+        Movie.find({ director: req.params.id }, 'title summary').exec()
+    ]);
+
+    if (director === null) {
+        // No results.
+        const err = new Error('Director not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('director_detail', {
+        title: 'Director Detail',
+        director: director,
+        director_movies: allMoviesByDirector
+    });
 });
 
 // Display Director create form on GET.
