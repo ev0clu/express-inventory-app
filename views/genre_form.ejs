@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><%= title %></title>
+        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+
+    <body>
+        <nav>
+            <ul class="sidebar-nav-top">
+                <li><a href="/catalog">Home</a></li>
+                <li><a href="/catalog/movies">Movies</a></li>
+                <li><a href="/catalog/directors">Directors</a></li>
+                <li><a href="/catalog/genres">Genres</a></li>
+                <li>
+                    <a href="/catalog/moviestatuses">Movie statuses</a>
+                </li>
+            </ul>
+            <hr />
+            <ul class="sidebar-nav-bottom">
+                <li>
+                    <a href="/catalog/director/create">Create New Director</a>
+                </li>
+                <li>
+                    <a href="/catalog/genre/create">Create New Genre</a>
+                </li>
+                <li>
+                    <a href="/catalog/moviestatus/create">Create New Movie</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="content">
+            <h1><%= title %></h1>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="name">Genre:</label><br />
+                    <input
+                        id="name"
+                        class="form-control"
+                        type="text"
+                        placeholder="Drama, Sci-Fi etc."
+                        name="name"
+                        value="<%= typeof genre !== 'undefined' ? genre.name : '' %>"
+                    />
+                </div>
+                <button class="btn-primary" type="submit">Submit</button>
+            </form>
+            <% if (errors && errors.length > 0) { %>
+            <ul>
+                <% errors.forEach((error) => { %>
+                <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+            <% } %>
+        </div>
+        <footer>
+            <p>Copyright © Laszlo Kis 2023</p>
+            <a class="reflink" href="https://github.com/ev0clu" target="_blank">
+                <img class="github-img" src="/images/github-logo.png" alt="Github logo" />
+            </a>
+        </footer>
+    </body>
+</html>
