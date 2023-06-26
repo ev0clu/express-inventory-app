@@ -94,12 +94,45 @@ exports.director_create_post = [
 
 // Display Director delete form on GET.
 exports.director_delete_get = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director delete GET');
+    // Get details of director and all their movies (in parallel)
+    const [director, allMoviesByDirector] = await Promise.all([
+        Director.findById(req.params.id).exec(),
+        Movie.find({ director: req.params.id }, 'title summary').exec()
+    ]);
+
+    if (director === null) {
+        // No results.
+        res.redirect('/catalog/directors');
+    }
+
+    res.render('director_delete', {
+        title: 'Delete Director',
+        director: director,
+        director_movies: allMoviesByDirector
+    });
 });
 
 // Handle Director delete on POST.
 exports.director_delete_post = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director delete POST');
+    // Get details of director and all their movies (in parallel)
+    const [director, allMoviesByDirector] = await Promise.all([
+        Director.findById(req.params.id).exec(),
+        Movie.find({ director: req.params.id }, 'title summary').exec()
+    ]);
+
+    if (allMoviesByDirector.length > 0) {
+        // Director has movies. Render in same way as for GET route.
+        res.render('director_delete', {
+            title: 'Delete Director',
+            director: director,
+            director_movies: allMoviesByDirector
+        });
+        return;
+    } else {
+        // Director has no books. Delete object and redirect to the list of director.
+        await Director.findByIdAndRemove(req.body.directorid);
+        res.redirect('/catalog/directors');
+    }
 });
 
 // Display Director update form on GET.
