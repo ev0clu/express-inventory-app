@@ -1,6 +1,7 @@
 const Director = require('../models/Director');
 const Movie = require('../models/Movie');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 // Display list of all Director.
 exports.director_list = asyncHandler(async (req, res, next) => {
@@ -34,14 +35,62 @@ exports.director_detail = asyncHandler(async (req, res, next) => {
 });
 
 // Display Director create form on GET.
-exports.director_create_get = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director create GET');
-});
+exports.director_create_get = (req, res, next) => {
+    res.render('director_form', { title: 'Create Director', errors: null });
+};
 
 // Handle Director create on POST.
-exports.director_create_post = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director create POST');
-});
+exports.director_create_post = [
+    // Validate and sanitize fields.
+    body('first_name')
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage('First name must be specified.'),
+    body('last_name')
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage('Last name must be specified.'),
+    body('date_of_birth', 'Invalid date of birth')
+        .optional({ values: 'falsy' })
+        .isISO8601()
+        .toDate(),
+    body('date_of_death', 'Invalid date of death')
+        .optional({ values: 'falsy' })
+        .isISO8601()
+        .toDate(),
+
+    // Process request after validation and sanitization.
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create Director object with escaped and trimmed data
+        const director = new Director({
+            first_name: req.body.first_name,
+            last_name: req.body.family_name,
+            date_of_birth: req.body.date_of_birth,
+            date_of_death: req.body.date_of_death
+        });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/errors messages.
+            res.render('director_form', {
+                title: 'Create Director',
+                director: director,
+                errors: errors.array()
+            });
+            return;
+        } else {
+            // Data from form is valid.
+            // Save director.
+            await director.save();
+            // Redirect to new director record.
+            res.redirect(director.url);
+        }
+    })
+];
 
 // Display Director delete form on GET.
 exports.director_delete_get = asyncHandler(async (req, res, next) => {
