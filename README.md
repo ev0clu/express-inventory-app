@@ -23,6 +23,7 @@ A simple CRUD app has built with Node.js and Express.js framework. Express gener
 -   [Node.js](https://nodejs.org/en)
 -   [Express.js](https://expressjs.com/)
 -   [express-async-handler](https://www.npmjs.com/package/express-async-handler/)
+-   [express-validator](https://www.npmjs.com/package/express-validator)
 -   [EJS view engine](https://ejs.co/)
 -   [MongoDB](https://www.mongodb.com/)
 -   [Mongoose](https://mongoosejs.com/)
