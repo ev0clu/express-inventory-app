@@ -43,9 +43,10 @@ async function genreCreate(name) {
     console.log(`Added genre: ${name}`);
 }
 
-async function directorCreate(first_name, last_name, date_of_birth) {
+async function directorCreate(first_name, last_name, date_of_birth, date_of_death) {
     const directorDetail = { first_name: first_name, last_name: last_name };
     if (date_of_birth != false) directorDetail.date_of_birth = date_of_birth;
+    if (date_of_death != false) directorDetail.date_of_death = date_of_death;
 
     const director = new Director(directorDetail);
 

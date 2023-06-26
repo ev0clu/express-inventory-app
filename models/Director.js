@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const directorSchema = new mongoose.Schema({
     first_name: { type: String, required: true, maxLength: 50 },
     last_name: { type: String, required: true, maxLength: 50 },
-    date_of_birth: { type: Date }
+    date_of_birth: { type: Date },
+    date_of_death: { type: Date }
 });
 
 // Virtual for director's full name
@@ -27,6 +28,10 @@ directorSchema.virtual('url').get(function () {
 
 directorSchema.virtual('date_of_birth_formatted').get(function () {
     return dateFns.format(this.date_of_birth, 'MM/dd/yyy');
+});
+
+directorSchema.virtual('date_of_death_formatted').get(function () {
+    return dateFns.format(this.date_of_death, 'MM/dd/yyy');
 });
 
 module.exports = mongoose.model('Director', directorSchema);
