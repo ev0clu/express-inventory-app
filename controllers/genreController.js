@@ -123,7 +123,7 @@ exports.genre_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Genre update form on GET.
 exports.genre_update_get = asyncHandler(async (req, res, next) => {
-    // Get genres for form.
+    // Get genre for form.
     const genre = await Genre.findById(req.params.id).exec();
 
     if (genre === null) {
@@ -142,18 +142,6 @@ exports.genre_update_get = asyncHandler(async (req, res, next) => {
 
 // Handle Genre update on POST.
 exports.genre_update_post = [
-    // Convert the genre to an array.
-    (req, res, next) => {
-        if (!(req.body.genre instanceof Array)) {
-            if (typeof req.body.genre === 'undefined') {
-                req.body.genre = [];
-            } else {
-                req.body.genre = new Array(req.body.genre);
-            }
-        }
-        next();
-    },
-
     // Validate and sanitize fields.
     body('name', 'Genre must not be empty.').trim().isLength({ min: 1 }).escape(),
 
