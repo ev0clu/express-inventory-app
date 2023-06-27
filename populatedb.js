@@ -10,10 +10,12 @@ const userArgs = process.argv.slice(2);
 const Movie = require('./models/Movie');
 const Director = require('./models/Director');
 const Genre = require('./models/Genre');
+const Status = require('./models/Status');
 
 const genres = [];
 const directors = [];
 const movies = [];
+const statuses = [];
 
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false); // Prepare for Mongoose 7
@@ -29,6 +31,7 @@ async function main() {
     await createGenres();
     await createDirectors();
     await createMovies();
+    await createStatuses();
     console.log('Debug: Closing mongoose');
     mongoose.connection.close();
 }
@@ -41,6 +44,13 @@ async function genreCreate(index, name) {
     await genre.save();
     genres[index] = genre;
     console.log(`Added genre: ${name}`);
+}
+
+async function statusCreate(index, name) {
+    const status = new Status({ name: name });
+    await status.save();
+    statuses[index] = status;
+    console.log(`Added status: ${name}`);
 }
 
 async function directorCreate(index, first_name, last_name, date_of_birth, date_of_death) {
@@ -81,6 +91,15 @@ async function createGenres() {
         genreCreate(4, 'Drama'),
         genreCreate(5, 'Sci-Fi'),
         genreCreate(6, 'Western')
+    ]);
+}
+
+async function createStatuses() {
+    console.log('Adding statuses');
+    await Promise.all([
+        statusCreate(0, 'Watched'),
+        statusCreate(1, 'Watchlist'),
+        statusCreate(2, 'Watch again')
     ]);
 }
 
