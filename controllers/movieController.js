@@ -71,7 +71,6 @@ exports.movie_create_get = asyncHandler(async (req, res, next) => {
         genres: allGenres,
         statuses: allStatuses,
         movie: undefined,
-        date: undefined,
         errors: null
     });
 });
