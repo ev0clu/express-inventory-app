@@ -71,6 +71,7 @@ exports.movie_create_get = asyncHandler(async (req, res, next) => {
         genres: allGenres,
         statuses: allStatuses,
         movie: undefined,
+        date: undefined,
         errors: null
     });
 });
@@ -104,7 +105,8 @@ exports.movie_create_post = [
             director: req.body.director,
             summary: req.body.summary,
             genre: req.body.genre,
-            status: req.body.status
+            status: req.body.status,
+            date: req.body.date
         });
 
         if (!errors.isEmpty()) {
@@ -128,7 +130,8 @@ exports.movie_create_post = [
                 directors: allDirectors,
                 genres: allGenres,
                 movie: movie,
-                status: allStatuses,
+                statuses: allStatuses,
+                date: movie.date,
                 errors: errors.array()
             });
         } else {
@@ -163,10 +166,108 @@ exports.movie_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display movie update form on GET.
 exports.movie_update_get = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Movie update GET');
+    // Get movie, directors and genres for form.
+    const [movie, allDirectors, allGenres, allStatuses] = await Promise.all([
+        Movie.findById(req.params.id).populate('director').populate('genre').exec(),
+        Director.find().sort({ title: 1 }).exec(),
+        Genre.find().sort({ title: 1 }).exec(),
+        Status.find().sort({ title: 1 }).exec()
+    ]);
+
+    if (movie === null) {
+        // No results.
+        const err = new Error('Movie not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    // Mark our selected genres as checked.
+    for (const genre of allGenres) {
+        for (const movie_g of movie.genre) {
+            if (genre._id.toString() === movie_g._id.toString()) {
+                genre.checked = 'true';
+            }
+        }
+    }
+
+    res.render('movie_form', {
+        title: 'Update Movie',
+        directors: allDirectors,
+        genres: allGenres,
+        statuses: allStatuses,
+        movie: movie,
+        errors: null
+    });
 });
 
 // Handle movie update on POST.
-exports.movie_update_post = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Movie update POST');
-});
+exports.movie_update_post = [
+    // Convert the genre to an array.
+    (req, res, next) => {
+        if (!(req.body.genre instanceof Array)) {
+            if (typeof req.body.genre === 'undefined') {
+                req.body.genre = [];
+            } else {
+                req.body.genre = new Array(req.body.genre);
+            }
+        }
+        next();
+    },
+
+    // Validate and sanitize fields.
+    body('title', 'Title must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('director', 'Director must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('genre.*').escape(),
+    body('status', 'Status must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('date', 'Date must not be empty.').trim().isLength({ min: 1 }).escape(),
+
+    // Process request after validation and sanitization.
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Movie object with escaped/trimmed data and old id.
+        const movie = new Movie({
+            title: req.body.title,
+            summary: req.body.summary,
+            director: req.body.director,
+            genre: typeof req.body.genre === 'undefined' ? [] : req.body.genre,
+            status: req.body.status,
+            date: req.body.date,
+            _id: req.params.id // This is required, or a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+
+            // Get all directors and genres for form
+            const [allDirectors, allGenres, allStatuses] = await Promise.all([
+                Director.find().exec(),
+                Genre.find().exec(),
+                Status.find().exec()
+            ]);
+
+            // Mark our selected genres as checked.
+            for (const genre of allGenres) {
+                if (movie.genre.indexOf(genre._id) > -1) {
+                    genre.checked = 'true';
+                }
+            }
+            res.render('movie_form', {
+                title: 'Update Movie',
+                directors: allDirectors,
+                genres: allGenres,
+                movie: movie,
+                statuses: allStatuses,
+                errors: errors.array()
+            });
+            return;
+        } else {
+            // Data from form is valid. Update the record.
+            const themovie = await Movie.findByIdAndUpdate(req.params.id, movie, {});
+            // Redirect to book detail page.
+            res.redirect(themovie.url);
+        }
+    })
+];

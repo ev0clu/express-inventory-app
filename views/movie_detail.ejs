@@ -34,13 +34,12 @@
                     <span class="text-watch-again"><%= movie.status %></span>
                     <% } %>
                 </p>
-                <% if (movie.status === 'Watched') { %>
-                <hr />
-                <p><strong>Watched date:</strong> <%= movie.date_formatted %></p>
-                <% } %>
-                <hr />
+                <p><strong><%= movie.status %> date:</strong> <%= movie.date_formatted %></p>
                 <p>
                     <a href="<%= movie.url %>/delete">Delete movie</a>
+                </p>
+                <p>
+                    <a href="<%= movie.url %>/update">Update movie</a>
                 </p>
             </div>
         </div>

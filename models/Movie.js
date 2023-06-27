@@ -25,5 +25,9 @@ movieSchema.virtual('date_formatted').get(function () {
     return dateFns.format(this.date, 'MM/dd/yyy HH:mm');
 });
 
+movieSchema.virtual('date_html_format').get(function () {
+    return dateFns.format(this.date, "yyyy-MM-dd'T'HH:mm");
+});
+
 // Export model
 module.exports = mongoose.model('Movie', movieSchema);
