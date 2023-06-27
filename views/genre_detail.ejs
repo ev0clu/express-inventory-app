@@ -21,9 +21,12 @@
                 <% }) %> <% } else { %>
                 <p>This genre has no movies in the database.</p>
                 <% } %>
+                <hr />
+                <p>
+                    <a href="<%= genre.url %>/delete">Delete director</a>
+                </p>
             </div>
         </div>
-
         <footer>
             <p>Copyright © Laszlo Kis 2023</p>
             <a class="reflink" href="https://github.com/ev0clu" target="_blank">
