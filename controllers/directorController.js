@@ -69,7 +69,7 @@ exports.director_create_post = [
         // Create Director object with escaped and trimmed data
         const director = new Director({
             first_name: req.body.first_name,
-            last_name: req.body.family_name,
+            last_name: req.body.last_name,
             date_of_birth: req.body.date_of_birth,
             date_of_death: req.body.date_of_death
         });
