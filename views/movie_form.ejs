@@ -71,11 +71,11 @@
                     >
                         <% statuses.forEach((status) => { %> <% if (movie) { %> <% if (status.name
                         == movie.status) { %>
-                        <option value="<%= status._id %>" selected><%= status.name %></option>
+                        <option value="<%= status.name %>" selected><%= status.name %></option>
                         <% } else { %>
-                        <option value="<%= status._id %>"><%= status.name %></option>
+                        <option value="<%= status.name %>"><%= status.name %></option>
                         <% } %> <% } else { %>
-                        <option value="<%= status._id %>"><%= status.name %></option>
+                        <option value="<%= status.name %>"><%= status.name %></option>
                         <% } %> <% }); %>
                     </select>
                 </div>
