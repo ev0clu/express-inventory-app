@@ -265,7 +265,7 @@ exports.movie_update_post = [
         } else {
             // Data from form is valid. Update the record.
             const themovie = await Movie.findByIdAndUpdate(req.params.id, movie, {});
-            // Redirect to book detail page.
+            // Redirect to movie detail page.
             res.redirect(themovie.url);
         }
     })
