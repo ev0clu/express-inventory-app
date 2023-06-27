@@ -17,7 +17,13 @@
                     <strong>
                         <a href="<%= movie.url %>"> <%= movie.title %> </a>
                     </strong>
-                    (<%= movie.director.name %>)
+                    (<%= movie.director.name %>) - <% if (movie.status == 'Watched') { %>
+                    <span class="text-watched"><%= movie.status %></span>
+                    <% } else if (movie.status == 'Watchlist') { %>
+                    <span class="text-watchlist"><%= movie.status %></span>
+                    <% } else { %>
+                    <span class="text-watch-again"><%= movie.status %></span>
+                    <% } %>
                 </li>
                 <% }) %> <% } else { %>
                 <li>There are no movies.</li>

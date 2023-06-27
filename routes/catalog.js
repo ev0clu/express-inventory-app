@@ -5,7 +5,6 @@ const router = express.Router();
 const movie_controller = require('../controllers/movieController');
 const director_controller = require('../controllers/directorController');
 const genre_controller = require('../controllers/genreController');
-const movieStatus_controller = require('../controllers/movieStatusController');
 
 /// MOVIE ROUTES ///
 
@@ -87,31 +86,5 @@ router.get('/genre/:id', genre_controller.genre_detail);
 
 // GET request for list of all Genre.
 router.get('/genres', genre_controller.genre_list);
-
-/// MOVIESTATUSES ROUTES ///
-
-// GET request for creating a MovieStatus. NOTE This must come before route that displays MovieStatus (uses id).
-router.get('/moviestatus/create', movieStatus_controller.movieStatus_create_get);
-
-// POST request for creating MovieStatus.
-router.post('/moviestatus/create', movieStatus_controller.movieStatus_create_post);
-
-// GET request to delete MovieStatus.
-router.get('/moviestatus/:id/delete', movieStatus_controller.movieStatus_delete_get);
-
-// POST request to delete MovieStatus.
-router.post('/moviestatus/:id/delete', movieStatus_controller.movieStatus_delete_post);
-
-// GET request to update MovieStatus.
-router.get('/moviestatus/:id/update', movieStatus_controller.movieStatus_update_get);
-
-// POST request to update MovieStatus.
-router.post('/moviestatus/:id/update', movieStatus_controller.movieStatus_update_post);
-
-// GET request for one MovieStatus.
-router.get('/moviestatus/:id', movieStatus_controller.movieStatus_detail);
-
-// GET request for list of all MovieStatus.
-router.get('/moviestatuses', movieStatus_controller.movieStatus_list);
 
 module.exports = router;

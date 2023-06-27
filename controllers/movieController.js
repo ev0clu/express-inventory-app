@@ -1,7 +1,6 @@
 const Movie = require('../models/Movie');
 const Director = require('../models/Director');
 const Genre = require('../models/Genre');
-const MovieStatus = require('../models/MovieStatus');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
@@ -10,8 +9,8 @@ exports.index = asyncHandler(async (req, res, next) => {
     const [numMovies, numWatchlistMovieStatus, numWatchedMovieStatus, numDirectors, numGenres] =
         await Promise.all([
             Movie.countDocuments({}).exec(),
-            MovieStatus.countDocuments({ status: 'Watchlist' }).exec(),
-            MovieStatus.countDocuments({ status: 'Watched' }).exec(),
+            Movie.countDocuments({ status: 'Watchlist' }).exec(),
+            Movie.countDocuments({ status: 'Watched' }).exec(),
             Director.countDocuments({}).exec(),
             Genre.countDocuments({}).exec()
         ]);
@@ -28,7 +27,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // Display list of all movies.
 exports.movie_list = asyncHandler(async (req, res, next) => {
-    const allMovies = await Movie.find({}, 'title director')
+    const allMovies = await Movie.find({}, 'title director status')
         .sort({ title: 1 })
         .populate('director')
         .exec();
@@ -39,9 +38,8 @@ exports.movie_list = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific movie.
 exports.movie_detail = asyncHandler(async (req, res, next) => {
     // Get details of movies, movie statuses for specific movie
-    const [movie, movieStatuses] = await Promise.all([
-        Movie.findById(req.params.id).populate('director').populate('genre').exec(),
-        MovieStatus.find({ movie: req.params.id }).exec()
+    const [movie] = await Promise.all([
+        Movie.findById(req.params.id).populate('director').populate('genre').exec()
     ]);
 
     if (movie === null) {
@@ -53,8 +51,7 @@ exports.movie_detail = asyncHandler(async (req, res, next) => {
 
     res.render('movie_detail', {
         title: movie.title,
-        movie: movie,
-        movie_statuses: movieStatuses
+        movie: movie
     });
 });
 

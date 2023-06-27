@@ -26,23 +26,22 @@
             <div>
                 <p>
                     <strong>Status: </strong>
-                    <% if (movie_statuses.length > 0) { %> <% movie_statuses.forEach((val) => { %>
-                    <% if (val.status == 'Watched') { %>
-                    <span class="text-watched"><%= val.status %></span>
-                    <% } else if (val.status == 'Watchlist') { %>
-                    <span class="text-watchlist"><%= val.status %></span>
+                    <% if (movie.status == 'Watched') { %>
+                    <span class="text-watched"><%= movie.status %></span>
+                    <% } else if (movie.status == 'Watchlist') { %>
+                    <span class="text-watchlist"><%= movie.status %></span>
                     <% } else { %>
-                    <span class="text-watch-again"><%= val.status %></span>
-                    <% } %> <% if (val.status === 'Watched') { %>
+                    <span class="text-watch-again"><%= movie.status %></span>
+                    <% } %>
                 </p>
+                <% if (movie.status === 'Watched') { %>
                 <hr />
-                <p><strong>Watched date:</strong> <%= val.due_date_formatted %></p>
+                <p><strong>Watched date:</strong> <%= movie.date_formatted %></p>
                 <% } %>
                 <p>
                     <strong>Id:</strong>
-                    <a href="<%= val.url %>"><%= val._id %></a>
+                    <a href="<%= movie.url %>"><%= movie._id %></a>
                 </p>
-                <% })} %>
             </div>
         </div>
 
