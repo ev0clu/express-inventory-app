@@ -129,7 +129,7 @@ exports.director_delete_post = asyncHandler(async (req, res, next) => {
         });
         return;
     } else {
-        // Director has no books. Delete object and redirect to the list of director.
+        // Director has no movies. Delete object and redirect to the list of director.
         await Director.findByIdAndRemove(req.body.directorid);
         res.redirect('/catalog/directors');
     }
