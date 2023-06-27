@@ -38,7 +38,7 @@
                         <% directors.forEach((director) => { %> <% if (movie) { %>
                         <option
                             value="<%= director._id %>"
-                            selected="<%= (director._id.toString() === movie.director._id.toString()) ? 'selected' : '' %>"
+                            selected="<%= (director._id.toString() === movie.director._id.toString()) ? true : false %>"
                         >
                             <%= director.name %>
                         </option>
@@ -60,6 +60,21 @@
 <%= typeof movie !== 'undefined' ? movie.summary : '' %>
 </textarea
                     >
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select
+                        id="status"
+                        class="form-control"
+                        type="select"
+                        placeholder="Select status"
+                        name="status"
+                        required="true"
+                    >
+                        <% statuses.forEach((status) => { %>
+                        <option value="<%= status._id %>"><%= status.name %></option>
+                        <% }); %>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Genre:</label>

@@ -1,6 +1,7 @@
 const Movie = require('../models/Movie');
 const Director = require('../models/Director');
 const Genre = require('../models/Genre');
+const Status = require('../models/Status');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
@@ -58,15 +59,17 @@ exports.movie_detail = asyncHandler(async (req, res, next) => {
 // Display movie create form on GET.
 exports.movie_create_get = asyncHandler(async (req, res, next) => {
     // Get all directors and genres, which we can use for adding to our movie.
-    const [allDirectors, allGenres] = await Promise.all([
+    const [allDirectors, allGenres, allStatuses] = await Promise.all([
         Director.find().sort({ last_name: 1 }).exec(),
-        Genre.find().sort({ title: 1 }).exec()
+        Genre.find().sort({ title: 1 }).exec(),
+        Status.find().sort({ title: 1 }).exec()
     ]);
 
     res.render('movie_form', {
         title: 'Create Movie',
         directors: allDirectors,
         genres: allGenres,
+        statuses: allStatuses,
         movie: undefined,
         errors: null
     });
@@ -88,6 +91,7 @@ exports.movie_create_post = [
     body('director', 'Director must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('genre.*').escape(),
+    body('status', 'Status must not be empty.').trim().isLength({ min: 1 }).escape(),
     // Process request after validation and sanitization.
 
     asyncHandler(async (req, res, next) => {
@@ -99,16 +103,18 @@ exports.movie_create_post = [
             title: req.body.title,
             director: req.body.director,
             summary: req.body.summary,
-            genre: req.body.genre
+            genre: req.body.genre,
+            status: req.body.status
         });
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
 
             // Get all directors and genres for form.
-            const [allDirectors, allGenres] = await Promise.all([
+            const [allDirectors, allGenres, allStatuses] = await Promise.all([
                 Director.find().exec(),
-                Genre.find().exec()
+                Genre.find().exec(),
+                Status.find().exec()
             ]);
 
             // Mark our selected genres as checked.
@@ -122,6 +128,7 @@ exports.movie_create_post = [
                 directors: allDirectors,
                 genres: allGenres,
                 movie: movie,
+                status: allStatuses,
                 errors: errors.array()
             });
         } else {
