@@ -141,12 +141,24 @@ exports.movie_create_post = [
 
 // Display movie delete form on GET.
 exports.movie_delete_get = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Movie delete GET');
+    // Get details of movie
+    const movie = await Movie.findById(req.params.id).exec();
+
+    if (movie === null) {
+        // No results.
+        res.redirect('/catalog/movies');
+    }
+
+    res.render('movie_delete', {
+        title: 'Delete Movie',
+        movie: movie
+    });
 });
 
 // Handle movie delete on POST.
 exports.movie_delete_post = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Movie delete POST');
+    await Movie.findByIdAndRemove(req.body.movieid);
+    res.redirect('/catalog/movies');
 });
 
 // Display movie update form on GET.
