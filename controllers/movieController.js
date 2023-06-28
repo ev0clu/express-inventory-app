@@ -39,9 +39,7 @@ exports.movie_list = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific movie.
 exports.movie_detail = asyncHandler(async (req, res, next) => {
     // Get details of movies, movie statuses for specific movie
-    const [movie] = await Promise.all([
-        Movie.findById(req.params.id).populate('director').populate('genre').exec()
-    ]);
+    const movie = await Movie.findById(req.params.id).populate('director').populate('genre').exec();
 
     if (movie === null) {
         // No results.
@@ -92,6 +90,7 @@ exports.movie_create_post = [
     body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('genre.*').escape(),
     body('status', 'Status must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('date', 'Date must not be empty').notEmpty().escape(),
     // Process request after validation and sanitization.
 
     asyncHandler(async (req, res, next) => {
@@ -128,9 +127,8 @@ exports.movie_create_post = [
                 title: 'Create Movie',
                 directors: allDirectors,
                 genres: allGenres,
-                movie: movie,
+                movie: undefined,
                 statuses: allStatuses,
-                date: movie.date,
                 errors: errors.array()
             });
         } else {
@@ -219,7 +217,7 @@ exports.movie_update_post = [
     body('summary', 'Summary must not be empty.').trim().isLength({ min: 1 }).escape(),
     body('genre.*').escape(),
     body('status', 'Status must not be empty.').trim().isLength({ min: 1 }).escape(),
-    body('date', 'Date must not be empty.').trim().isLength({ min: 1 }).escape(),
+    body('date', 'Date must not be empty').notEmpty().escape(),
 
     // Process request after validation and sanitization.
     asyncHandler(async (req, res, next) => {
@@ -242,9 +240,9 @@ exports.movie_update_post = [
 
             // Get all directors and genres for form
             const [allDirectors, allGenres, allStatuses] = await Promise.all([
-                Director.find().exec(),
-                Genre.find().exec(),
-                Status.find().exec()
+                Director.find().sort({ title: 1 }).exec(),
+                Genre.find().sort({ title: 1 }).exec(),
+                Status.find().sort({ title: 1 }).exec()
             ]);
 
             // Mark our selected genres as checked.
