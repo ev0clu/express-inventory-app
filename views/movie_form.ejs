@@ -55,8 +55,7 @@
                         name="summary"
                         required="true"
                     >
-<%= typeof movie !== 'undefined' ? movie.summary : '' %>
-</textarea
+<%= typeof movie !== 'undefined' ? movie.summary : '' %></textarea
                     >
                 </div>
                 <div class="form-group">
@@ -86,7 +85,7 @@
                         class="form-control"
                         type="datetime-local"
                         name="date"
-                        value="<%= typeof movie !== 'undefined' ? movie.date_html_format : '' %>"
+                        value="<%= typeof movie !== 'undefined' && movie.date !== null ? movie.date_html_format : null %>"
                     />
                 </div>
                 <div class="form-group">
