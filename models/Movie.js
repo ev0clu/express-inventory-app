@@ -22,7 +22,7 @@ movieSchema.virtual('url').get(function () {
 });
 
 movieSchema.virtual('date_formatted').get(function () {
-    return dateFns.format(this.date, 'MM/dd/yyy HH:mm');
+    return dateFns.format(this.date, 'MM/dd/yyyy HH:mm');
 });
 
 movieSchema.virtual('date_html_format').get(function () {
