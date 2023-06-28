@@ -23,7 +23,7 @@ The app purpose to store movies which has already seen, will be seen or want to 
 
 ### How to populate mongoDB database
 
--   Run 'node populatedb.js <MONGODB_URL>' in your terminal from the project root folder
+-   Run `node populatedb.js <MONGODB_URL>` in your terminal from the project root folder
 
 ## Dependencies
 
