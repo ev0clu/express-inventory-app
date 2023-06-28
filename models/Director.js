@@ -27,17 +27,33 @@ directorSchema.virtual('url').get(function () {
 });
 
 directorSchema.virtual('date_of_birth_formatted').get(function () {
-    let date_of_death_string = '';
+    let date_of_birth_string = '';
     if (this.date_of_birth) {
-        date_of_death_string = dateFns.format(this.date_of_birth, 'yyy/MM/dd');
+        date_of_birth_string = dateFns.format(this.date_of_birth, 'yyyy/MM/dd');
     }
-    return date_of_death_string;
+    return date_of_birth_string;
 });
 
 directorSchema.virtual('date_of_death_formatted').get(function () {
     let date_of_death_string = '';
     if (this.date_of_death) {
-        date_of_death_string = dateFns.format(this.date_of_death, 'yyy/MM/dd');
+        date_of_death_string = dateFns.format(this.date_of_death, 'yyyy/MM/dd');
+    }
+    return date_of_death_string;
+});
+
+directorSchema.virtual('date_of_birth_html_format').get(function () {
+    let date_of_birth_string = '';
+    if (this.date_of_birth) {
+        date_of_birth_string = dateFns.format(this.date_of_birth, 'yyyy-MM-dd');
+    }
+    return date_of_birth_string;
+});
+
+directorSchema.virtual('date_of_death_html_format').get(function () {
+    let date_of_death_string = '';
+    if (this.date_of_death) {
+        date_of_death_string = dateFns.format(this.date_of_death, 'yyyy-MM-dd');
     }
     return date_of_death_string;
 });
