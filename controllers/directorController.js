@@ -137,10 +137,59 @@ exports.director_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Director update form on GET.
 exports.director_update_get = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director update GET');
+    // Get director for form.
+    const director = await Director.findById(req.params.id).exec();
+
+    if (director === null) {
+        // No results.
+        const err = new Error('Director not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('director_form', {
+        title: 'Update Director',
+        director: director,
+        errors: null
+    });
 });
 
 // Handle Director update on POST.
-exports.director_update_post = asyncHandler(async (req, res, next) => {
-    res.send('NOT IMPLEMENTED: Director update POST');
-});
+exports.director_update_post = [
+    // Validate and sanitize fields.
+    body('first_name', 'Director first name must not be empty.')
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    body('last_name', 'Director last name must not be empty.').trim().isLength({ min: 1 }).escape(),
+
+    // Process request after validation and sanitization.
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Director object with old id.
+        const director = new Director({
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            date_of_birth: req.body.date_of_birth,
+            date_of_death: req.body.date_of_death,
+            _id: req.params.id // This is required, or a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/error messages.
+            res.render('director_form', {
+                title: 'Update Director',
+                director: director,
+                errors: errors.array()
+            });
+            return;
+        } else {
+            // Data from form is valid. Update the record.
+            const thedirector = await Director.findByIdAndUpdate(req.params.id, director, {});
+            // Redirect to director detail page.
+            res.redirect(thedirector.url);
+        }
+    })
+];
