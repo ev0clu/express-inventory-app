@@ -1,6 +1,6 @@
 # **Inventory App**
 
-A simple CRUD app has built with Node.js and Express.js framework. Express generator has been used to create the skeleton of the project and EJS view engine has been used as templating engine. The app uses [MVC pattern](https://developer.mozilla.org/en-US/docs/Glossary/MVC) and mongoose ORM (Object Relational Model).
+A simple CRUD app has built with Node.js and Express.js framework. Express generator has been used to create the skeleton of the project and EJS view engine has been used as templating engine. The app uses [MVC pattern](https://developer.mozilla.org/en-US/docs/Glossary/MVC) and mongoose ODM (Object Document Model).
 
 The app purpose to store movies which has already seen, will be seen or want to watch again by the user. The user can add new movies, directors and genres to the database and he/she can also modify or remove any of them from the database.
 
